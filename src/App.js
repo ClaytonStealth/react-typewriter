@@ -1,5 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
+import TextDisplay from "./components/TextDisplayComp";
 
 const deepClone = (object) => {
   /* This function will create a "deep-clone" of an object which is necessary
@@ -8,9 +9,14 @@ const deepClone = (object) => {
 };
 
 const App = () => {
+  const [text, setText] = useState("");
+  const textHandler = (keyObject) => {
+    setText(text + keyObject.toLowerCase());
+  };
   return (
     <div className='App-header'>
-      <KeyboardGrid />
+      <TextDisplay text={text} />
+      <KeyboardGrid textHandler={textHandler} />
     </div>
   );
 };
@@ -88,16 +94,18 @@ const KeyboardGrid = (props) => {
 
     const keyRowsCopy = [...keyRows];
     const keyMapping = keyRowsCopy.map((keyRow) => {
-      return keyRow.map((key) => {
-        if (key.letter === event.key.toUpperCase()) {
-          key.isPressed = true;
-          return key;
+      return keyRow.map((keyObject) => {
+        if (keyObject.letter.toLowerCase() === event.key.toLowerCase()) {
+          keyObject.isPressed = true;
+          props.textHandler(keyObject.letter);
+          return keyObject;
         } else {
-          return key;
+          return keyObject;
         }
       });
     });
     setKeyRows(keyMapping);
+
     // console.log(keyMapping);
     // console.log(keyRowsCopy.flat());
     // const keyRow = keyRowsCopy.flat().find((keyRow) => {
@@ -110,12 +118,12 @@ const KeyboardGrid = (props) => {
     // console.log(event.key);
     const keyRowsCopy = [...keyRows];
     const keyMapping = keyRowsCopy.map((keyRow) => {
-      return keyRow.map((key) => {
-        if (key.letter === event.key.toUpperCase()) {
-          key.isPressed = false;
-          return key;
+      return keyRow.map((keyObject) => {
+        if (keyObject.letter.toLowerCase() === event.key.toLowerCase()) {
+          keyObject.isPressed = false;
+          return keyObject;
         } else {
-          return key;
+          return keyObject;
         }
       });
     });
@@ -156,11 +164,23 @@ const KeyboardKey = (props) => {
   return (
     <div
       className='Keyboard-key'
-      style={props.keyObject.isPressed ? { color: "green" } : { color: "red" }}
+      style={
+        props.keyObject.isPressed
+          ? { backgroundColor: "white", color: "slategray" }
+          : { backgroundColor: "slategray", color: "white" }
+      }
     >
       {props.keyObject.letter}
     </div>
   );
 };
+
+// const TextDisplay = (props) => {
+//   return (
+//     <div>
+//       <p>{props.text}</p>
+//     </div>
+//   );
+// };
 
 export default App;
