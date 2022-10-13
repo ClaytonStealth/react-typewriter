@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
 import TextDisplay from "./components/TextDisplayComp";
-const deepClone = (object) => {
-  /* This function will create a "deep-clone" of an object which is necessary
-	when creating a copy an object with multiple nested layers of objects or arrays. */
-  return JSON.parse(JSON.stringify(object));
-};
+// const deepClone = (object) => {
+/* This function will create a "deep-clone" of an object which is necessary
+ 	when creating a copy an object with multiple nested layers of objects or arrays. */
+//   return JSON.parse(JSON.stringify(object));
+// };
 
 const App = () => {
   const [text, setText] = useState("");
